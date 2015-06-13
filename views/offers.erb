@@ -1,0 +1,14 @@
+<% if @errors.include? :no_uid %>
+  <p>Please provide a user id and try again</p>
+<% end %>
+
+<% if @offers.empty? %>
+  <p>No offers available</p>
+<% else %>
+  <% for offer in @offers %>
+  <h3><%= offer['title'] %></h3>
+  <p>Payout: <%= offer['payout'] %></p>
+  <img src="<%= offer['thumbnail']['lowres'] %>">
+  <hr>
+  <% end %>
+<% end %>

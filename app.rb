@@ -1,8 +1,31 @@
+require 'sinatra'
+require 'tilt/erb'
+require 'json'
+
 require_relative './lib/offers_service'
 
-now = Time.now.to_i
 
-offers = OffersService.new
-json = offers.fetch( timestamp: now, uid: 'player1', pub0: 'campaign2', page: 1)
+get '/' do
+  erb :index
+end
 
-puts json
+post '/offers' do
+  now    = Time.now.to_i
+  offers = OffersService.new
+
+  @errors = []
+  @offers = []
+
+  if params["uid"].empty? || params["uid"].nil?
+    @errors << :no_uid
+  else
+     res = offers.fetch( timestamp: now,
+                         uid:   params['uid'],
+                         pub0:  params['pub0'],
+                         page:  params['page'] )
+
+    @offers = res['offers']
+  end
+
+  erb :offers
+end
