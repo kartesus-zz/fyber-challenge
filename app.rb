@@ -2,6 +2,7 @@ require 'digest/sha1'
 require 'uri'
 require 'net/http'
 
+
 OFFERS_ENDPOINT = 'http://api.sponsorpay.com/feed/v1/offers.json'
 API_KEY = 'b07a12df7d52e6c118e5d47d3f9e60135b109a1f'
 
@@ -11,6 +12,10 @@ REQUEST_DEVICEID = '2b6f0cc904d137be2e1730235f5664094b83'
 REQUEST_LOCALE = 'de'
 REQUEST_IP = '109.235.143.113'
 REQUEST_OFFER_TYPES = 112
+
+require_relative './lib/offers_response'
+
+offers_response = Fyber::OffersResponse.new(API_KEY)
 
 def request_data(uid, pub0, page)
   { format:       REQUEST_FORMAT,
@@ -41,8 +46,6 @@ request = "#{OFFERS_ENDPOINT}?#{qs}&hashkey=#{hashkey(qs)}"
 uri = URI.parse(request)
 response = Net::HTTP.get_response(uri)
 
-puts "code: #{response.code}"
-puts "signature: #{response['x-sponsorpay-response-signature']}"
-puts response.body
+json = offers_response.parse(response.body, response['x-sponsorpay-response-signature'])
 
-puts (Digest::SHA1.hexdigest(response.body + API_KEY) == response['x-sponsorpay-response-signature'])
+puts json
