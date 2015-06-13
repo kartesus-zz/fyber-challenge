@@ -1,5 +1,4 @@
-require 'hashkey'
-require 'digest/sha1'
+require 'fyber/hashkey'
 
 KEY = "e95a21621a1865bcbae3bee89c4d4f84"
 
@@ -7,7 +6,7 @@ REQUEST_PARAMS = "appid=157&device_id=2b6f0cc904d137be2e1730235f5664094b831186&i
 REQUEST_HASH   = "7a2b1604c03d46eec1ecd4a686787b75dd693c4d"
 
 RESPONSE_BODY = "{}"
-RESPONSE_HASH = Digest::SHA1.hexdigest(RESPONSE_BODY + KEY)
+RESPONSE_HASH = "85d5e1866c31434d8765b3bbe355454148004a0a"
 
 
 RSpec.describe Fyber::Hashkey do

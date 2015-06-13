@@ -14,9 +14,7 @@ DEFAULT_REQUEST_DATA = {
   device_id:    '2b6f0cc904d137be2e1730235f5664094b83'
 }
 
-require_relative './lib/offers_response'
-require_relative './lib/offers_request'
-require_relative './lib/hashkey'
+require_relative './lib/fyber'
 
 hashkey = Fyber::Hashkey.new(API_KEY)
 offers_response = Fyber::OffersResponse.new(hashkey)

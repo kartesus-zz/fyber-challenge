@@ -1,4 +1,4 @@
-require 'offers_request'
+require 'fyber/offers_request'
 
 RSpec.describe Fyber::OffersRequest do
   context "querystring" do

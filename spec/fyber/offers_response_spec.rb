@@ -1,4 +1,4 @@
-require 'offers_response'
+require 'fyber/offers_response'
 
 RSpec.describe Fyber::OffersResponse do
   it "raises error if response signature doesn't match" do
