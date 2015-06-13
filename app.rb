@@ -14,8 +14,10 @@ REQUEST_IP = '109.235.143.113'
 REQUEST_OFFER_TYPES = 112
 
 require_relative './lib/offers_response'
+require_relative './lib/hashkey'
 
-offers_response = Fyber::OffersResponse.new(API_KEY)
+hashkey = Fyber::Hashkey.new(API_KEY)
+offers_response = Fyber::OffersResponse.new(hashkey)
 
 def request_data(uid, pub0, page)
   { format:       REQUEST_FORMAT,

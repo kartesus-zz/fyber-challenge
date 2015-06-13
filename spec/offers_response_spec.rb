@@ -1,19 +1,23 @@
 require 'offers_response'
-require 'digest/sha1'
 
 RSpec.describe Fyber::OffersResponse do
   it "raises error if response signature doesn't match" do
-    response = Fyber::OffersResponse.new('apikey')
-    expect {
-      response.parse("{}", 'wrongkey')
-    }.to raise_error
+    hashkey = double()
+    allow(hashkey).to receive(:valid_response?) { false }
+
+    response = Fyber::OffersResponse.new(hashkey)
+
+    expect { response.parse("{}", 'badsignature') }.to raise_error
   end
 
   it "returns a json representation of the body" do
+    hashkey = double()
+    allow(hashkey).to receive(:valid_response?) { true }
+
     body = %|{"foo": "bar"}|
-    signature = Digest::SHA1.hexdigest(body + 'apikey')
-    response = Fyber::OffersResponse.new('apikey')
-    json = response.parse(body, signature)
+    response = Fyber::OffersResponse.new(hashkey)
+    json = response.parse(body, 'goodsignature')
+
     expect(json['foo']).to eq("bar")
   end
 end
